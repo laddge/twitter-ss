@@ -14,9 +14,20 @@ def get_twh(screen_name):
     auth = tweepy.OAuthHandler(os.getenv("TW_CK"), os.getenv("TW_CS"))
     auth.set_access_token(os.getenv("TW_AT"), os.getenv("TW_AS"))
     api = tweepy.API(auth)
-    since = (datetime.datetime.now() + datetime.timedelta(hours=-24)
-             ).strftime("%Y-%m-%d_%H:%M:%S")
-    twh = len(api.search_tweets(q=f"from:{screen_name} since:{since}")) / 24
+    utc = datetime.timezone.utc
+    since = datetime.datetime.now(utc) + datetime.timedelta(hours=-24)
+    cnt = 0
+    esc = False
+    for p in range(10):
+        tws = api.user_timeline(screen_name=screen_name, count=200, page=p)
+        for tw in tws:
+            if tw.created_at.replace(tzinfo=utc) < since:
+                esc = True
+                break
+            cnt += 1
+        if esc:
+            break
+    twh = cnt / 24
     return twh
 
 
