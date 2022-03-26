@@ -14,8 +14,8 @@ def get_twh(screen_name):
     auth = tweepy.OAuthHandler(os.getenv("TW_CK"), os.getenv("TW_CS"))
     auth.set_access_token(os.getenv("TW_AT"), os.getenv("TW_AS"))
     api = tweepy.API(auth)
-    since = (datetime.datetime.now() - datetime.timedelta(hours=-24)
-             ).strftime("%Y/%m/%d_%H:%M:%S")
+    since = (datetime.datetime.now() + datetime.timedelta(hours=-24)
+             ).strftime("%Y-%m-%d_%H:%M:%S")
     twh = len(api.search_tweets(q=f"from:{screen_name} since:{since}")) / 24
     return twh
 
