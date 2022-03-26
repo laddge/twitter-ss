@@ -32,7 +32,7 @@ def update_value(screen_name):
         sheet.update_cell(1, 2, 0)
     if screen_name in sheet.row_values(2):
         index = sheet.row_values(2).index(screen_name)
-        if not str(twh) == sheet.row_values(3)[index]:
+        if not twh == float(sheet.row_values(3)[index]):
             sheet.update_cell(3, index + 1, twh)
             nave = (ave * cnt + twh) / (cnt + 1)
             sheet.update_cell(1, 1, nave)
