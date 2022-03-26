@@ -1,7 +1,9 @@
 import datetime
+import json
 import os
 from urllib.parse import urlparse
 
+import gspread
 import tweepy
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse, Response
@@ -13,11 +15,40 @@ def get_twh(screen_name):
     auth = tweepy.OAuthHandler(os.getenv("TW_CK"), os.getenv("TW_CS"))
     auth.set_aaccess_token(os.getenv("TW_AT"), os.getenv("TW_AS"))
     api = tweepy.API(auth)
-    uid = api.get_user(screen_name=screen_name).id
     since = (datetime.datetime.now() - datetime.timedelta(hours=-24)
              ).strftime("%Y/%m/%d_%H:%M:%S")
     twh = len(api.search_tweets(q=f"from:{screen_name} since:{since}")) / 24
-    return [uid, twh]
+    return twh
+
+
+def update_value(screen_name):
+    gc = gspread.service_account_from_dict(json.loads(os.getenv("GS_SA")))
+    sheet = gc.open("twss").sheet1
+    twh = get_twh(screen_name)
+    ave = float(sheet.cell(1, 1).value)
+    cnt = int(sheet.cell(1, 2).value)
+    if not sheet.cell(1, 1).value:
+        sheet.update_cell(1, 1, 0)
+    if not sheet.cell(1, 2).value:
+        sheet.update_cell(1, 2, 0)
+    if screen_name in sheet.row_values(2):
+        index = sheet.row_values(2).index(screen_name)
+        if not str(twh) == sheet.row_values(3)[index]:
+            sheet.update_cell(3, index + 1, twh)
+            nave = (ave * cnt + twh) / (cnt + 1)
+            sheet.update_cell(1, 1, nave)
+            sheet.update_cell(1, 2, cnt + 1)
+            return [nave, cnt + 1, twh]
+        else:
+            return [ave, cnt, twh]
+    else:
+        col = len(sheet.row_values(2)) + 1
+        sheet.update_cell(2, col, screen_name)
+        sheet.update_cell(3, col, twh)
+        nave = (ave * cnt + twh) / (cnt + 1)
+        sheet.update_cell(1, 1, nave)
+        sheet.update_cell(1, 2, cnt + 1)
+        return [nave, cnt + 1, twh]
 
 
 @app.middleware("http")
