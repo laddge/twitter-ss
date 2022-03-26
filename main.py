@@ -71,6 +71,6 @@ async def get_root(request: Request):
     return {"message": "hello, world"}
 
 
-@app.get("/{screen_name}")
+@app.get("/u/{screen_name}")
 async def get_values(screen_name: str):
     return update_value(screen_name)
