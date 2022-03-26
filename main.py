@@ -1,13 +1,23 @@
+import datetime
 import os
 from urllib.parse import urlparse
 
+import tweepy
 from fastapi import FastAPI, Request
-from fastapi.responses import (
-    RedirectResponse,
-    Response,
-)
+from fastapi.responses import RedirectResponse, Response
 
 app = FastAPI()
+
+
+def get_twh(screen_name):
+    auth = tweepy.OAuthHandler(os.getenv("TW_CK"), os.getenv("TW_CS"))
+    auth.set_aaccess_token(os.getenv("TW_AT"), os.getenv("TW_AS"))
+    api = tweepy.API(auth)
+    uid = api.get_user(screen_name=screen_name).id
+    since = (datetime.datetime.now() - datetime.timedelta(hours=-24)
+             ).strftime("%Y/%m/%d_%H:%M:%S")
+    twh = len(api.search_tweets(q=f"from:{screen_name} since:{since}")) / 24
+    return [uid, twh]
 
 
 @app.middleware("http")
