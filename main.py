@@ -1,5 +1,4 @@
 import datetime
-import json
 import os
 from urllib.parse import urlparse
 
@@ -22,7 +21,7 @@ def get_twh(screen_name):
 
 
 def update_value(screen_name):
-    gc = gspread.service_account_from_dict(json.loads(os.getenv("GS_SA")))
+    gc = gspread.service_account_from_dict(eval(os.getenv("GS_SA")))
     sheet = gc.open("twss").sheet1
     twh = get_twh(screen_name)
     ave = float(sheet.cell(1, 1).value)
