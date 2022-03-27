@@ -16,9 +16,7 @@ def get_twh(screen_name):
     auth.set_access_token(os.getenv("TW_AT"), os.getenv("TW_AS"))
     api = tweepy.API(auth)
     screen_name = api.get_user(screen_name=screen_name).screen_name
-    tws = api.user_timeline(
-        screen_name=screen_name, count=10, exclude_replies=False, include_rts=False
-    )
+    tws = api.user_timeline(screen_name=screen_name, count=10, exclude_replies=False)
     if len(tws) <= 1:
         return 0
     itvs = []
