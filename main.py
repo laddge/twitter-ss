@@ -42,7 +42,7 @@ def update_value(screen_name):
         row = len(sheet.col_values(1)) + 1
         sheet.update_cell(row, 1, screen_name)
         sheet.update_cell(row, 2, twh)
-    vals = sheet.col_values(2)
+    vals = [float(f) for f in sheet.col_values(2)]
     return [sum(vals) / len(vals), len(vals), twh]
 
 
