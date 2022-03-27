@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@laddge_">
+    <meta property="og:url" content="https://twss.laddge.net/">
+    <meta property="og:title" content="ツイ廃偏差値測定">
+    <meta property="og:description" content="ツイ廃偏差値を測定します">
+    <meta property="og:image" content="https://user-images.githubusercontent.com/67098414/160265228-ae1c11a1-8f59-47b8-b07c-56557b4a731f.png">
+    <title>ツイ廃偏差値測定</title>
+</head>
+<body>
+    <h1 class="text-center m-3 fw-bold">ツイ廃偏差値測定</h1>
+    <div class="col-6 mx-auto">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="atmark">@</span>
+            </div>
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="atmark" id="screen_name">
+            <div class="input-group-append">
+                <button class="input-group-text btn btn-primary" id="go" onclick="action();">Go</button>
+            </div>
+        </div>
+    </div>
+    <hr><br>
+    <div id="output" class="text-center font-monospace"></div>
+    <script type="text/javascript" src="/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+</body>
+</html>

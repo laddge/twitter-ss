@@ -6,7 +6,7 @@ import gspread
 import numpy as np
 import tweepy
 from fastapi import FastAPI, Request
-from fastapi.responses import RedirectResponse, Response
+from fastapi.responses import RedirectResponse, Response, FileResponse
 
 app = FastAPI()
 
@@ -65,9 +65,14 @@ async def middleware(request: Request, call_next):
 
 @app.get("/")
 async def get_root(request: Request):
-    return {"message": "hello, world"}
+    return FileResponse("./template.html")
 
 
 @app.get("/u/{screen_name}")
 async def get_values(screen_name: str):
     return update_value(screen_name)
+
+
+@app.get("/js/script.js")
+async def get_js():
+    return FileResponse("./js/script.js")
