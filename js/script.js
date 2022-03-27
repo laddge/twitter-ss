@@ -43,6 +43,9 @@ function action() {
                                 document.getElementById('msg').innerHTML += '<br>平均: ' + String(d.ave).substr(0, 4) + ' ツイート/h';
                                 setTimeout(() => {
                                     document.getElementById('msg').innerHTML += '<br>標準偏差: ' + String(d.std).substr(0, 4);
+                                    setTimeout(() => {
+                                        document.getElementById('msg').innerHTML += '<br><a href="https://twitter.com/intent/tweet?text=' + screen_name + 'さんのツイ廃偏差値は ' + output.innerHTML + ' です%0D%0A%23ツイ廃偏差値%0D%0Ahttps://twss.laddge.net/" target="_blank"><div class="btn btn-outline-dark"><i class="bi-twitter"></i> 結果をシェア！</div></a>';
+                                    }, 300);
                                 }, 300);
                             }, 300);
                         }, 300);
