@@ -44,7 +44,7 @@ def update_value(screen_name):
         sheet.update_cell(row, 1, screen_name)
         sheet.update_cell(row, 2, twh)
     vals = [float(f) for f in sheet.col_values(2)]
-    return [np.mean(vals), len(vals), np.std(vals), twh]
+    return {"ave": np.mean(vals), "std": np.std(vals), "twh": twh}
 
 
 @app.middleware("http")
