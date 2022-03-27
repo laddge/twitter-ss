@@ -1,4 +1,5 @@
 function action() {
+    document.getElementById('msg').innerHTML = '';
     const output = document.getElementById('output');
     output.classList.remove('display-1');
     output.classList.remove('fw-bold');
@@ -14,6 +15,7 @@ function action() {
         .then(d => {
             console.log(JSON.stringify(d));
             const ss = (d.twh - d.ave) / d.std * 10 + 50;
+            let msg = 'まだ大丈夫';
             output.classList.remove('text-warning');
             output.classList.remove('text-danger');
             output.classList.add('text-success');
@@ -25,9 +27,11 @@ function action() {
                 if (n >= 50) {
                     output.classList.remove('text-success');
                     output.classList.add('text-warning');
+                    msg = 'ツイ廃ですね';
                 } else if (n >= 70) {
                     output.classList.remove('text-warning');
                     output.classList.add('text-danger');
+                    msg = '(=_=;';
                 }
                 output.innerHTML = (String(n) + '0').substr(0, 4);
                 if (n >= ss) {
@@ -35,6 +39,18 @@ function action() {
                 }
                 n = n + 0.1
             }, 10);
+            setTimeout(() => {
+                document.getElementById('msg').innerHTML = msg;
+            }, 300);
+            setTimeout(() => {
+                document.getElementById('msg').innerHTML += '<br>' + String(d.twh).substr(0, 4) + ' ツイート/h';
+            }, 100);
+            setTimeout(() => {
+                document.getElementById('msg').innerHTML += '<br>平均: ' + String(d.ave).substr(0, 4) + ' ツイート/h';
+            }, 100);
+            setTimeout(() => {
+                document.getElementById('msg').innerHTML += '<br>標準偏差: ' + String(d.ave).substr(0, 4);
+            }, 100);
         })
         .catch(e => {
             output.innerHTML = 'Error!';
