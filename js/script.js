@@ -35,22 +35,22 @@ function action() {
                 }
                 output.innerHTML = (String(n) + '0').substr(0, 4);
                 if (n >= ss) {
+                    setTimeout(() => {
+                        document.getElementById('msg').innerHTML = msg;
+                        setTimeout(() => {
+                            document.getElementById('msg').innerHTML += '<br>' + String(d.twh).substr(0, 4) + ' ツイート/h';
+                            setTimeout(() => {
+                                document.getElementById('msg').innerHTML += '<br>平均: ' + String(d.ave).substr(0, 4) + ' ツイート/h';
+                                setTimeout(() => {
+                                    document.getElementById('msg').innerHTML += '<br>標準偏差: ' + String(d.std).substr(0, 4);
+                                }, 300);
+                            }, 300);
+                        }, 300);
+                    }, 500);
                     clearInterval(intervalId);
                 }
                 n = n + 0.1
             }, 10);
-            setTimeout(() => {
-                document.getElementById('msg').innerHTML = msg;
-            }, 300);
-            setTimeout(() => {
-                document.getElementById('msg').innerHTML += '<br>' + String(d.twh).substr(0, 4) + ' ツイート/h';
-            }, 100);
-            setTimeout(() => {
-                document.getElementById('msg').innerHTML += '<br>平均: ' + String(d.ave).substr(0, 4) + ' ツイート/h';
-            }, 100);
-            setTimeout(() => {
-                document.getElementById('msg').innerHTML += '<br>標準偏差: ' + String(d.ave).substr(0, 4);
-            }, 100);
         })
         .catch(e => {
             output.innerHTML = 'Error!';
