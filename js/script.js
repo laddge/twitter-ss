@@ -36,15 +36,15 @@ function action() {
                 output.innerHTML = (String(n) + '0').substr(0, 4);
                 if (n >= ss) {
                     setTimeout(() => {
-                        document.getElementById('msg').innerHTML = msg;
+                        document.getElementById('msg').innerHTML = '<p>' + msg + '</p>';
                         setTimeout(() => {
-                            document.getElementById('msg').innerHTML += '<br>' + String(d.twh).substr(0, 4) + ' ツイート/h';
+                            document.getElementById('msg').innerHTML += '<p>' + String(d.twh).substr(0, 4) + ' ツイート/h</p>';
                             setTimeout(() => {
-                                document.getElementById('msg').innerHTML += '<br>平均: ' + String(d.ave).substr(0, 4) + ' ツイート/h';
+                                document.getElementById('msg').innerHTML += '<p>平均: ' + String(d.ave).substr(0, 4) + ' ツイート/h</p>';
                                 setTimeout(() => {
-                                    document.getElementById('msg').innerHTML += '<br>標準偏差: ' + String(d.std).substr(0, 4);
+                                    document.getElementById('msg').innerHTML += '<p>標準偏差: ' + String(d.std).substr(0, 4) + '</p>';
                                     setTimeout(() => {
-                                        document.getElementById('msg').innerHTML += '<br><a href="https://twitter.com/intent/tweet?text=' + screen_name + 'さんのツイ廃偏差値は ' + output.innerHTML + ' です%0D%0A%23ツイ廃偏差値%0D%0Ahttps://twss.laddge.net/" target="_blank"><div class="btn btn-outline-dark"><i class="bi-twitter"></i> 結果をシェア！</div></a>';
+                                        document.getElementById('msg').innerHTML += '<a href="https://twitter.com/intent/tweet?text=' + screen_name + 'さんのツイ廃偏差値は ' + output.innerHTML + ' です%0D%0A%23ツイ廃偏差値%0D%0Ahttps://twss.laddge.net/" target="_blank"><div class="btn btn-outline-dark"><i class="bi-twitter"></i> 結果をシェア！</div></a>';
                                     }, 300);
                                 }, 300);
                             }, 300);
