@@ -3,6 +3,7 @@ import os
 from urllib.parse import urlparse
 
 import gspread
+import numpy as np
 import tweepy
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse, Response
@@ -43,7 +44,7 @@ def update_value(screen_name):
         sheet.update_cell(row, 1, screen_name)
         sheet.update_cell(row, 2, twh)
     vals = [float(f) for f in sheet.col_values(2)]
-    return [sum(vals) / len(vals), len(vals), twh]
+    return [np.mean(vals), len(vals), twh]
 
 
 @app.middleware("http")
