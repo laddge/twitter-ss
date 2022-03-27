@@ -15,24 +15,15 @@ def get_twh(screen_name):
     auth = tweepy.OAuthHandler(os.getenv("TW_CK"), os.getenv("TW_CS"))
     auth.set_access_token(os.getenv("TW_AT"), os.getenv("TW_AS"))
     api = tweepy.API(auth)
-    utc = datetime.timezone.utc
-    since = datetime.datetime.now(utc) + datetime.timedelta(hours=-24)
-    cnt = 0
-    esc = False
-    max_id = None
-    len_tws = 1
-    while len_tws:
-        tws = api.user_timeline(screen_name=screen_name, count=200, max_id=max_id)
-        len_tws = len(tws)
-        for tw in tws:
-            if tw.created_at.replace(tzinfo=utc) < since:
-                esc = True
-                break
-            cnt += 1
-        if esc:
-            break
-        max_id = tws[-1].id - 1
-    twh = cnt / 24
+    tws = api.user_timeline(
+        screen_name=screen_name, count=10, exclude_replies=False, include_rts=False
+    )
+    if len(tws) <= 1:
+        return 0
+    itvs = []
+    for i in range(len(tws) - 1):
+        itvs.append((tws[i].created_at - tws[i + 1].created_at).seconds)
+    twh = 3600 / np.mean(itvs)
     return twh
 
 
