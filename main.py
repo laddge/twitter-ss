@@ -19,8 +19,11 @@ def get_twh(screen_name):
     since = datetime.datetime.now(utc) + datetime.timedelta(hours=-24)
     cnt = 0
     esc = False
-    for p in range(10):
-        tws = api.user_timeline(screen_name=screen_name, count=200, page=p)
+    max_id = None
+    len_tws = 1
+    while len_tws:
+        tws = api.user_timeline(screen_name=screen_name, count=200, max_id=max_id)
+        len_tws = len(tws)
         for tw in tws:
             if tw.created_at.replace(tzinfo=utc) < since:
                 esc = True
@@ -28,6 +31,7 @@ def get_twh(screen_name):
             cnt += 1
         if esc:
             break
+        max_id = tws[-1].id - 1
     twh = cnt / 24
     return twh
 
