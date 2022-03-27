@@ -35,30 +35,15 @@ def update_value(screen_name):
     gc = gspread.service_account_from_dict(eval(os.getenv("GS_SA")))
     sheet = gc.open("twss").sheet1
     twh = get_twh(screen_name)
-    ave = float(sheet.cell(1, 1).value)
-    cnt = int(sheet.cell(1, 2).value)
-    if not sheet.cell(1, 1).value:
-        sheet.update_cell(1, 1, 0)
-    if not sheet.cell(1, 2).value:
-        sheet.update_cell(1, 2, 0)
-    if screen_name in sheet.row_values(2):
-        index = sheet.row_values(2).index(screen_name)
-        if not twh == float(sheet.row_values(3)[index]):
-            sheet.update_cell(3, index + 1, twh)
-            nave = (ave * cnt + twh) / (cnt + 1)
-            sheet.update_cell(1, 1, nave)
-            sheet.update_cell(1, 2, cnt + 1)
-            return [nave, cnt + 1, twh]
-        else:
-            return [ave, cnt, twh]
+    if screen_name in sheet.col_values(1):
+        index = sheet.col_values(1).index(screen_name)
+        sheet.update_cell(index + 1, 2, twh)
     else:
-        col = len(sheet.row_values(2)) + 1
-        sheet.update_cell(2, col, screen_name)
-        sheet.update_cell(3, col, twh)
-        nave = (ave * cnt + twh) / (cnt + 1)
-        sheet.update_cell(1, 1, nave)
-        sheet.update_cell(1, 2, cnt + 1)
-        return [nave, cnt + 1, twh]
+        row = len(sheet.col_values(1)) + 1
+        sheet.update_cell(row, 1, screen_name)
+        sheet.update_cell(row, 2, twh)
+    vals = sheet.col_values(2)
+    return [sum(vals) / len(vals), len(vals), twh]
 
 
 @app.middleware("http")
