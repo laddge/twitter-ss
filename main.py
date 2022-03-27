@@ -15,6 +15,7 @@ def get_twh(screen_name):
     auth = tweepy.OAuthHandler(os.getenv("TW_CK"), os.getenv("TW_CS"))
     auth.set_access_token(os.getenv("TW_AT"), os.getenv("TW_AS"))
     api = tweepy.API(auth)
+    screen_name = api.get_user(screen_name=screen_name).screen_name
     tws = api.user_timeline(
         screen_name=screen_name, count=10, exclude_replies=False, include_rts=False
     )
@@ -24,13 +25,13 @@ def get_twh(screen_name):
     for i in range(len(tws) - 1):
         itvs.append((tws[i].created_at - tws[i + 1].created_at).seconds)
     twh = 3600 / np.mean(itvs)
-    return twh
+    return screen_name, twh
 
 
 def update_value(screen_name):
     gc = gspread.service_account_from_dict(eval(os.getenv("GS_SA")))
     sheet = gc.open("twss").sheet1
-    twh = get_twh(screen_name)
+    screen_name, twh = get_twh(screen_name)
     if screen_name in sheet.col_values(1):
         index = sheet.col_values(1).index(screen_name)
         sheet.update_cell(index + 1, 2, twh)
