@@ -24,14 +24,14 @@ function action() {
             output.classList.add('display-1');
             output.classList.add('fw-bold');
             const intervalId = setInterval(() => {
-                if (n >= 50) {
-                    output.classList.remove('text-success');
-                    output.classList.add('text-warning');
-                    msg = 'ツイ廃ですね';
-                } else if (n >= 70) {
+                if (n >= 70) {
                     output.classList.remove('text-warning');
                     output.classList.add('text-danger');
                     msg = '(=_=;';
+                } else if (n >= 50) {
+                    output.classList.remove('text-success');
+                    output.classList.add('text-warning');
+                    msg = 'ツイ廃ですね';
                 }
                 output.innerHTML = (String(n) + '0').substr(0, 4);
                 if (n >= ss) {
